@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>01 Intake L/AIP 001/2019</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --brand:#2563eb;          /* primary accent - vibrant blue */
+      --brand-600:#1d4ed8;
+      --brand-light:#dbeafe;
+      --text:#1f2937;           /* base text */
+      --muted:#6b7280;          /* secondary text */
+      --bg:#f9fafb;             /* page background */
+      --panel:#ffffff;          /* cards/panels */
+      --line:#e5e7eb;           /* subtle borders */
+      --ok:#10b981;             /* success color */
+      --warn:#f59e0b;           /* warning color */
+      --gradient-start:#2563eb;
+      --gradient-end:#7c3aed;
+
+      --header-h:70px;          /* fixed header height */
+      --footer-h:60px;          /* fixed footer height */
+      --sidebar-w:280px;        /* desktop sidebar width */
+      --radius:12px;
+      --shadow:0 10px 25px rgba(0,0,0,0.05);
+      --shadow-hover:0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    *{box-sizing:border-box}
+    html, body{height:100%}
+    body{
+      margin:0; 
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color:var(--text); 
+      background:var(--bg);
+      line-height:1.5;
+    }
+
+    /* ===== Header ===== */
+    header.site-header{
+      position:fixed; 
+      inset:0 0 auto 0; 
+      height:var(--header-h);
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between;
+      padding:0 24px; 
+      background:var(--panel); 
+      border-bottom:1px solid var(--line);
+      z-index:1000;
+      box-shadow: var(--shadow);
+    }
+    .brand{
+      display:flex; 
+      align-items:center; 
+      gap:12px; 
+      font-weight:700;
+    }
+    .brand__logo{
+      width:42px; 
+      height:42px; 
+      border-radius:10px; 
+      display:grid; 
+      place-items:center;
+      background:linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); 
+      color:#fff; 
+      font-weight:800;
+      box-shadow:var(--shadow);
+    }
+    .brand__title{
+      font-size:18px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .top-nav{
+      display:flex; 
+      align-items:center; 
+      gap:4px;
+    }
+    .top-nav a{
+      text-decoration:none; 
+      color:var(--muted); 
+      font-weight:600; 
+      padding:10px 16px; 
+      border-radius:8px;
+      transition: all 0.2s ease;
+    }
+    .top-nav a:hover{
+      color:var(--brand); 
+      background:var(--brand-light);
+    }
+    .top-nav a:focus{
+      outline:2px solid var(--brand);
+      outline-offset: 2px;
+    }
+
+    /* Hamburger */
+    .hamburger{
+      display:none; 
+      background:none; 
+      border:1px solid var(--line); 
+      padding:10px; 
+      border-radius:8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .hamburger:hover{
+      border-color: var(--brand);
+    }
+    .hamburger:focus{
+      outline:2px solid var(--brand);
+      outline-offset: 2px;
+    }
+    .hamburger span{
+      display:block; 
+      width:22px; 
+      height:2px; 
+      background:var(--text); 
+      margin:4px 0;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1){
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2){
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3){
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Mobile dropdown panel for top nav */
+    .mobile-nav{
+      position:fixed; 
+      top:var(--header-h); 
+      left:0; 
+      right:0; 
+      background:var(--panel);
+      border-bottom:1px solid var(--line); 
+      display:none; 
+      z-index:900;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .mobile-nav.open{display:block}
+    .mobile-nav a{
+      display:block; 
+      padding:16px 24px; 
+      color:var(--text); 
+      text-decoration:none; 
+      border-top:1px solid var(--line);
+      transition: all 0.2s ease;
+    }
+    .mobile-nav a:hover{
+      background:var(--brand-light);
+      color: var(--brand);
+      padding-left: 28px;
+    }
+
+    /* ===== Sidebar ===== */
+    aside.sidebar{
+      position:fixed; 
+      top:var(--header-h); 
+      bottom:var(--footer-h); 
+      left:0; 
+      width:var(--sidebar-w);
+      background:var(--panel); 
+      border-right:1px solid var(--line);
+      overflow:auto; 
+      padding:20px 16px; 
+      z-index:800;
+      box-shadow: var(--shadow);
+    }
+    .nav-group{
+      display:flex; 
+      flex-direction:column; 
+      gap:8px;
+    }
+    .nav-btn{
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      width:100%;
+      padding:14px 16px; 
+      border:none; 
+      background:var(--panel); 
+      color:var(--text);
+      text-align:left; 
+      border-radius:var(--radius); 
+      cursor:pointer; 
+      font-weight:600;
+      box-shadow:0 0 0 1px var(--line) inset;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover{
+      box-shadow:0 0 0 2px var(--brand) inset; 
+      background:var(--brand-light);
+      transform: translateY(-2px);
+    }
+    .nav-btn:focus{
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+    }
+    .nav-btn i{
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .nav-btn .hint{
+      font-size:12px; 
+      color:var(--muted);
+      transition: all 0.2s ease;
+    }
+
+    /* Dropdown inside sidebar */
+    .submenu{
+      display:none; 
+      padding-left:8px; 
+      margin-top:4px;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .submenu.open{display:block}
+    .submenu a{
+      display:flex;
+      align-items: center;
+      padding:12px 16px 12px 48px; 
+      border-radius:8px; 
+      text-decoration:none; 
+      color:var(--muted);
+      transition: all 0.2s ease;
+    }
+    .submenu a:hover{
+      background:var(--brand-light); 
+      color:var(--brand);
+    }
+    .submenu a i{
+      margin-right: 12px;
+      font-size: 14px;
+    }
+
+    /* Sidebar toggle for mobile */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      bottom: calc(var(--footer-h) + 20px);
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: white;
+      border: none;
+      box-shadow: var(--shadow-hover);
+      z-index: 950;
+      cursor: pointer;
+    }
+    
+    .sidebar-toggle i {
+      font-size: 24px;
+    }
+
+    /* ===== Main Content & Footer ===== */
+    main{
+      padding:calc(var(--header-h) + 24px) 24px calc(var(--footer-h) + 24px) calc(var(--sidebar-w) + 24px);
+      transition: padding 0.3s ease;
+    }
+    .card{
+      background:var(--panel); 
+      border-radius:var(--radius); 
+      padding:28px; 
+      box-shadow:var(--shadow);
+      border:1px solid var(--line);
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+    }
+    .card:hover{
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-5px);
+    }
+    .card h1, .card h2{
+      margin-top: 0;
+      color: var(--brand);
+    }
+    .card h1{
+      font-size: 28px;
+      border-bottom: 2px solid var(--brand-light);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    footer.site-footer{
+      position:fixed; 
+      inset:auto 0 0 0; 
+      height:var(--footer-h); 
+      background:var(--panel);
+      border-top:1px solid var(--line); 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      gap:24px;
+      padding:0 24px; 
+      z-index:950;
+      box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+    }
+    footer.site-footer a{
+      color:var(--brand); 
+      text-decoration:none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    footer.site-footer a:hover{
+      text-decoration:underline;
+      color: var(--brand-600);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px){
+      :root{ --sidebar-w:240px; }
+    }
+
+    @media (max-width: 860px){
+      .top-nav{display:none}
+      .hamburger{display:inline-block}
+      aside.sidebar{
+        transform:translateX(-100%); 
+        transition:transform 0.3s ease;
+      }
+      aside.sidebar.open{transform:translateX(0)}
+      main{padding-left:24px}
+      
+      /* Show sidebar toggle on mobile */
+      .sidebar-toggle {
+        display: grid;
+        place-items: center;
+      }
+      
+      /* Backdrop when sidebar is open */
+      .sidebar-backdrop{
+        position:fixed; 
+        inset:var(--header-h) 0 var(--footer-h) 0; 
+        background:rgba(0,0,0,.3);
+        display:none; 
+        z-index:700;
+        animation: fadeIn 0.3s ease;
+      }
+      .sidebar-backdrop.show{display:block}
+    }
+
+    /* Utility */
+    .sr-only{
+      position:absolute; 
+      width:1px; 
+      height:1px; 
+      padding:0; 
+      margin:-1px; 
+      overflow:hidden; 
+      clip:rect(0,0,0,0); 
+      white-space:nowrap; 
+      border:0;
+    }
+    
+    /* Animation for cards when they come into view */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card {
+      animation: slideIn 0.5s ease forwards;
+    }
+    
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    
+    /* Status indicators */
+    .status {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    .status.online {
+      background-color: var(--ok);
+    }
+    
+    .status.offline {
+      background-color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <div class="brand__logo" aria-hidden="true">01</div>
+      <div class="brand__title">01 Intake L/AIP 001/2019</div>
+    </div>
+
+    <nav class="top-nav" aria-label="Primary">
+      <a href="#home"><i class="fas fa-home"></i> Home</a>
+      <a href="#about"><i class="fas fa-info-circle"></i> About Us</a>
+      <a href="#contact"><i class="fas fa-envelope"></i> Contact Us</a>
+      <a href="#faqs"><i class="fas fa-question-circle"></i> FAQs</a>
+    </nav>
+
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+      <span class="sr-only">Toggle menu</span>
+    </button>
+  </header>
+
+  <!-- Mobile top nav panel -->
+  <nav id="mobileMenu" class="mobile-nav" aria-label="Mobile primary">
+    <a href="#home"><i class="fas fa-home"></i> Home</a>
+    <a href="#about"><i class="fas fa-info-circle"></i> About Us</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact Us</a>
+    <a href="#faqs"><i class="fas fa-question-circle"></i> FAQs</a>
+  </nav>
+
+  <!-- ===== Sidebar (fixed) ===== -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+  <aside class="sidebar" id="sidebar" aria-label="Section navigation">
+    <div class="nav-group">
+      <button class="nav-btn" data-link="#projects">
+        <span><i class="fas fa-project-diagram"></i> Intake Projects</span>
+      </button>
+      <button class="nav-btn" data-link="#emergency">
+        <span><i class="fas fa-hand-holding-medical"></i> Intake Emergency Fund</span>
+      </button>
+      <button class="nav-btn" data-link="#reunion">
+        <span><i class="fas fa-users"></i> Intake Reunion</span>
+      </button>
+
+      <!-- Dropdown group -->
+      <button class="nav-btn" id="execToggle" aria-expanded="false" aria-controls="execMenu">
+        <span><i class="fas fa-user-tie"></i> Intake Executive</span>
+        <span class="hint">▼</span>
+      </button>
+      <div class="submenu" id="execMenu" role="group" aria-label="Intake Executive submenu">
+        <a href="#exec1"><i class="fas fa-user"></i> Executive 1</a>
+        <a href="#exec2"><i class="fas fa-user"></i> Executive 2</a>
+        <a href="#exec3"><i class="fas fa-user"></i> Executive 3</a>
+        <a href="#exec4"><i class="fas fa-user"></i> Executive 4</a>
+      </div>
+
+      <button class="nav-btn" data-link="#biography">
+        <span><i class="fas fa-book"></i> Intake Biography</span>
+      </button>
+      <button class="nav-btn" data-link="#moments">
+        <span><i class="fas fa-camera"></i> Intake Moments</span>
+      </button>
+      <button class="nav-btn" data-link="#settings">
+        <span><i class="fas fa-cog"></i> Settings</span>
+      </button>
+      <button class="nav-btn" data-link="#logout">
+        <span><i class="fas fa-sign-out-alt"></i> Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Sidebar toggle for mobile -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- ===== Main Content ===== -->
+  <main id="content" role="main">
+    <section class="card" id="home">
+      <h1>Welcome to 01 Intake L/AIP 001/2019</h1>
+      <p>This is the official platform for our intake, designed to keep members connected, informed, and engaged. Here you'll find information about our projects, events, and resources available to members.</p>
+      <p>Our intake is committed to excellence, collaboration, and maintaining strong bonds among members. Explore the platform to stay updated with the latest activities and connect with fellow members.</p>
+      <p><span class="status online"></span> <strong>System Status:</strong> All services are operational</p>
+    </section>
+
+    <section class="card" id="about">
+      <h2>About Us</h2>
+      <p>We are the 01 Intake L/AIP 001/2019, a group of professionals dedicated to supporting each other and making a positive impact in our community. Our intake was established with the goal of creating lasting connections and fostering mutual growth.</p>
+      <p>We organize regular events, support member initiatives, and maintain an emergency fund to assist members in times of need.</p>
+    </section>
+
+    <section class="card" id="projects">
+      <h2>Intake Projects</h2>
+      <p>We're currently working on several initiatives to benefit our members and the wider community:</p>
+      <ul>
+        <li>Professional Development Workshop Series</li>
+        <li>Community Outreach Program</li>
+        <li>Alumni Networking Platform</li>
+        <li>Mentorship Program for New Members</li>
+      </ul>
+    </section>
+
+    <section class="card" id="emergency">
+      <h2>Intake Emergency Fund</h2>
+      <p>Our emergency fund provides financial assistance to members facing unexpected hardships. The fund is supported by voluntary contributions from members and managed by a committee elected by the intake.</p>
+      <p>To apply for assistance or make a contribution, please contact the fund administrator through the contact form.</p>
+    </section>
+
+    <section class="card" id="reunion">
+      <h2>Intake Reunion</h2>
+      <p>Our next reunion is scheduled for December 15, 2023. This will be our fifth annual gathering, and we're expecting record attendance.</p>
+      <p>Location: Grand Conference Center, City Hall</p>
+      <p>Time: 6:00 PM onwards</p>
+      <p>Please RSVP by December 1st to help us with planning.</p>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div>© <span id="year"></span> DenitechCodes</div>
+    <div>·</div>
+    <div>Contacts: <a href="mailto:contact@denitechcodes.com">contact@denitechcodes.com</a></div>
+    <div>·</div>
+    <div>Useful Links: <a href="#faqs">FAQs</a> | <a href="#privacy">Privacy Policy</a></div>
+  </footer>
+
+  <script>
+    // Utilities
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    // Header mobile menu toggle
+    const hamburger = $('#hamburger');
+    const mobileMenu = $('#mobileMenu');
+    hamburger?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', String(open));
+      hamburger.classList.toggle('active', open);
+    });
+
+    // Close mobile menu if clicking outside on small screens
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)){
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded','false');
+        hamburger.classList.remove('active');
+      }
+    });
+
+    // Sidebar submenu (Intake Executive)
+    const execToggle = $('#execToggle');
+    const execMenu   = $('#execMenu');
+    execToggle.addEventListener('click', () => {
+      const open = execMenu.classList.toggle('open');
+      execToggle.setAttribute('aria-expanded', String(open));
+      execToggle.querySelector('.hint').textContent = open ? '▲' : '▼';
+    });
+
+    // Sidebar button navigation (scroll to sections)
+    $$('.nav-btn[data-link]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-link');
+        const el = id ? document.querySelector(id) : null;
+        if (el){
+          window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+          
+          // Close sidebar on mobile after selection
+          if (window.matchMedia('(max-width: 860px)').matches) {
+            sidebar.classList.remove('open');
+            backdrop.classList.remove('show');
+          }
+        }
+      });
+    });
+
+    // Mobile: open/close sidebar with the sidebar toggle button
+    const sidebar = $('#sidebar');
+    const backdrop = $('#sidebarBackdrop');
+    const sidebarToggle = $('#sidebarToggle');
+    const mq = window.matchMedia('(max-width: 860px)');
+
+    function syncSidebarWithViewport(){
+      if (!mq.matches){
+        // desktop: ensure visible & backdrop hidden
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('show');
+      }
+    }
+    mq.addEventListener('change', syncSidebarWithViewport);
+    syncSidebarWithViewport();
+
+    sidebarToggle?.addEventListener('click', () => {
+      if (mq.matches){
+        const isOpen = sidebar.classList.toggle('open');
+        backdrop.classList.toggle('show', isOpen);
+      }
+    });
+
+    backdrop.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      backdrop.classList.remove('show');
+    });
+
+    // Footer year
+    $('#year').textContent = new Date().getFullYear();
+
+    // Accessibility: close menus with Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape'){
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded','false');
+        hamburger.classList.remove('active');
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('show');
+      }
+    });
+    
+    // Add animation to cards when they come into view
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all cards for animation
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.animationPlayState = 'paused';
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>
